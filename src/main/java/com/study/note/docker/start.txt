@@ -1,0 +1,13 @@
+启动        systemctl start docker
+守护进程重启   sudo systemctl daemon-reload
+重启docker服务   systemctl restart  docker
+重启docker服务  sudo service docker restart
+关闭docker   service docker stop
+关闭docker  systemctl stop docker
+
+
+查看已有镜像
+docker images
+
+查看已经启动的程序(显示所有程序)
+docker ps（-a）
