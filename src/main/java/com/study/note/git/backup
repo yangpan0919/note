@@ -1,0 +1,27 @@
+提交代码时，本地代码丢失了。解决方法如下：
+1、执行命令：git reflog
+
+d6ea731 (HEAD -> dev, origin/dev, master) HEAD@{0}: checkout: moving from master to dev
+d6ea731 (HEAD -> dev, origin/dev, master) HEAD@{1}: merge dev: Fast-forward
+37f7992 HEAD@{2}: checkout: moving from dev to master
+d6ea731 (HEAD -> dev, origin/dev, master) HEAD@{3}: commit: branch test
+37f7992 HEAD@{4}: checkout: moving from dev to dev
+37f7992 HEAD@{5}: reset: moving to HEAD@{1}
+66e655d HEAD@{6}: checkout: moving from master to dev
+37f7992 HEAD@{7}: commit: commit
+66e655d HEAD@{8}: checkout: moving from dev to master
+66e655d HEAD@{9}: checkout: moving from master to dev
+66e655d HEAD@{10}: checkout: moving from master to master
+66e655d HEAD@{11}: checkout: moving from master to master
+66e655d HEAD@{12}: checkout: moving from dev to master
+66e655d HEAD@{13}: checkout: moving from dev to dev
+66e655d HEAD@{14}: checkout: moving from master to dev
+66e655d HEAD@{15}: commit: first commit
+c9ae14a HEAD@{16}: commit (initial): first commit
+
+
+2、用reset (Suppose the old commit was HEAD@{5} in the ref log)
+
+git reset --hard HEAD@{7}
+
+亲测有效！解决了～解决了～
