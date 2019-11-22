@@ -1,0 +1,6 @@
+Pipeline中可以注册多个InboundHandler和多个OutboundHandler，
+并使用双向链表连接起来，对于收到的Inbound或Outbound事件会调用相关类型的Handler进行处理，
+但是Inbound和Outbound事件执行handler的顺序是不一样的，
+Inbound事件则是从前往后调用handler，最后一个被调用的是尾节点；
+对于Outbound事件则是从后往前调用，最后一个执行的是头结点。
+
