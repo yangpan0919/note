@@ -1,0 +1,2 @@
+netty里的ByteBuf在读取channelRead未进行写write操作时，需要自己释放release。
+执行到最后一步，是会有netty的tail自己来释放的；
