@@ -1,0 +1,66 @@
+1、htautoclient ---数据库  查询表里面的数据量  不是同步的
+select table_name,table_rows from information_schema.tables
+where table_schema = 'htautoclient'
+ORDER BY table_rows DESC;
+
+
+2、批量插入数据
+首先要打开这个开关，不然函数都创建不了 报错
+show VARIABLES like 'log_bin_trust_function_creators';
+
+set GLOBAL log_bin_trust_function_creators = 1;
+
+生成随机字符串的函数
+delimiter $$
+create FUNCTION rand_string(n INT) RETURNS VARCHAR(255)
+BEGIN
+	DECLARE chars_str VARCHAR(100) DEFAULT 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	DECLARE return_str VARCHAR(255) DEFAULT '';
+	DECLARE i INT default 0;
+	while i<n DO
+		set return_str = concat(return_str,substring(chars_str,FLOOR(1+RAND()*52),1));
+		set i = i + 1;
+	end while;
+	return return_str;
+
+END $$
+
+//生成随机数；
+delimiter $$
+create function rand_num()  returns int(5)
+BEGIN
+ declare i int default 0;
+ set i = FLOOR(100+RAND()*10);
+ return i;
+end $$
+
+//创建插入数据的存储过程
+delimiter $$
+create procedure insert_emp(in start int(10),in max_num int(10))
+begin
+	declare i int default 0;
+set autocommit = 0;
+repeat
+set i = i+1;
+insert into emp(empno,ename,job,mgr,hiredate,sal,comm,deptno) values
+((start +i),rand_string(6),'SALESMAN',0001,CURDATE(),2000,400,rand_num());
+until i = max_num
+end repeat;
+COMMIT;
+
+end $$
+
+//创建插入数据的存储过程
+delimiter $$
+create procedure insert_dept(in start int(10),in max_num int(10))
+begin
+	declare i int default 0;
+    set autocommit = 0;
+    repeat
+        set i = i+1;
+        insert into dept(deptno,dname,loc) values
+        ((start +i),rand_string(10),rand_string(8));
+    until i = max_num
+    end repeat;
+    COMMIT;
+end $$
